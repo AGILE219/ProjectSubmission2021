@@ -5,7 +5,9 @@ public class ChargerLocationWithBestChargerOnly {
     public final int distance;
     public final Charger charger;
 
-    public ChargerLocationWithBestChargerOnly(String name, int distance, Charger charger) {
+    public ChargerLocationWithBestChargerOnly(String name,
+                                              int distance,
+                                              Charger charger) {
         this.name = name;
         this.distance = distance;
         this.charger = charger;

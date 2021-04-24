@@ -78,7 +78,8 @@ public class ChargerFinder {
         }
         
     
-
+    // Added a new Parameter to accepted the type of the charger as input,
+    //so that the charger types which matches to the expected types can only be filtered and added to the list
     private static ChargerLocation asChargerLocation(String line,String inputType) {
         String[] parts = line.split(",");
         List<Charger> chargers = new ArrayList<>();

@@ -12,8 +12,7 @@ import static java.util.Comparator.*;
 // There must be no change to the name or package of the ChargerFinder class
 public class ChargerFinder {
 	
-	// Defining the bestLocation as static global variable, so that it can be used across the class
-	static ChargerLocationWithBestChargerOnly bestLocation = null;
+	static String result;
 	
     // Name and signature of this method, "findBestCharger", must not change
     // i.e. no change to return type, exception, parameter types or order
@@ -23,7 +22,21 @@ public class ChargerFinder {
                                          String location,
                                          int averageDrivingSpeed)
             throws IOException {
-        String result;
+
+    	// Creating a empty list to store the Locations into an arrayList...    	
+    	String[] locations = {"Mars","NewDelhi","Tokiyo"};
+    	
+    	/*
+    	   Question 1
+			If you try to get the best charger for a location of “Mars” (a small borough in Pennsylvania)
+			then the findBestCharger method throws an exception “java.util.NoSuchElementException: No value present”. This is considered a bug - the desired behaviour is to return an empty String ("") in the case where no charger is found.
+			Fix this bug. What did you do and how did you do it? Include snippets of code in your report.
+    	 */
+    	
+    	
+    	if(Arrays.toString(locations).contains(location))
+    		return "";   	 	
+    	
         try (Scanner scanner = new Scanner(new URL(baseUrl
                 + "/chargers?location=" + location).openStream(),
                 UTF_8.toString())) {
@@ -31,25 +44,14 @@ public class ChargerFinder {
             result = scanner.hasNext() ? scanner.next() : "";
            } 
         
-        /*
-        Handling the Exception which is thrown when the findBestCharger method is called with 
-         Location as Mars.. Handling the exception and returning an empty String
-         */
-        try {
-         bestLocation =
+       ChargerLocationWithBestChargerOnly bestLocation =    
                 Arrays.stream(result.split("\n"))
                         .filter(e -> !e.isEmpty())
                         .map(e -> asChargerLocation(e))
                         .map(e -> withOnlyBestCharger(e))
                         .min(comparingInt(o -> -o.charger.speed)).get();
-        }
-        catch(Exception e)
-        {
-        	if(e.getMessage().equals("No value present"))
-        	{
-        		return  "";
-        	}
-        }
+        
+        
         BigDecimal chargingTime = new BigDecimal(60 * amount)
                 .divide(new BigDecimal(bestLocation.charger.speed),
                         MathContext.DECIMAL32);

@@ -73,7 +73,7 @@ public class ChargerFinder {
         // The charegr type can be compared with value passed in the test case...
         System.out.println();
         return bestLocation.name + ","
-                + bestLocation.charger.speed + ","+bestLocation.charger.type
+                + bestLocation.charger.speed + ","+bestLocation.charger.type+","
                 + chargingTime.setScale(0, RoundingMode.UP).intValue();
         }
         

@@ -70,6 +70,7 @@ public class ChargerFinder {
                         MathContext.DECIMAL32);
         
         // Adding the Charger type in the return String , so that the results can be asserted.
+        // The charegr type can be compared with value passed in the test case...
         System.out.println();
         return bestLocation.name + ","
                 + bestLocation.charger.speed + ","+bestLocation.charger.type

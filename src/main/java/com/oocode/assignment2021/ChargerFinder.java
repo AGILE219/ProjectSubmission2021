@@ -43,6 +43,15 @@ public class ChargerFinder {
             scanner.useDelimiter("\\A");
             result = scanner.hasNext() ? scanner.next() : "";
            } 
+        /*
+         // Trying to solve Question -2 need to crate one extra method to pass the required type as an extra argument
+         * Question 2
+			The original developers didn’t understand that different electric cars use different types of connector. This system is for cars which support one of either the CCS standard, or the CHAdeMo standard (but not both or neither). There is a parameter of the findBestCharger method called type which will be either “CCS” or “CHAdeMo” depending on the vehicle for which this method is being called. The code needs to be changed to only consider chargers matching the type required by the vehicle.
+			For example, if the response from the external service for a particular location is:
+			New Salisbury,14,CHAdeMo,100,CCS,25,
+			and if the parameter “type” is set to “CCS” in the call to findBestCharger then the best charger in New Salisbury would be the 25kW CCS one as the 100 kW CHAdeMo one is not compatible with the type specified.
+			Implement this change, explaining how you have interpreted the requirements if they are not clear. What would you do to clarify these requirements? What did you do to implement this change, and how did you do it? Include snippets of code in your report.
+         */
         
        ChargerLocationWithBestChargerOnly bestLocation =    
                 Arrays.stream(result.split("\n"))

@@ -12,7 +12,10 @@ import static java.util.Comparator.*;
 // There must be no change to the name or package of the ChargerFinder class
 public class ChargerFinder {
 	
+	// Defining the result and chargerLocationList as global variables and static type so
+	// that  they can be used across the entire class..
 	static String result;
+	static List<ChargerLocation> chargerLocationList = new ArrayList<>();
 	
     // Name and signature of this method, "findBestCharger", must not change
     // i.e. no change to return type, exception, parameter types or order
@@ -23,7 +26,7 @@ public class ChargerFinder {
                                          int averageDrivingSpeed)
             throws IOException {
 
-    	// Creating a empty list to store the Locations into an arrayList...    	
+    	// Creating a empty list to store the Locations into an array...    	
     	String[] locations = {"Mars","NewDelhi","Tokiyo"};
     	
     	/*
@@ -41,7 +44,7 @@ public class ChargerFinder {
                 + "/chargers?location=" + location).openStream(),
                 UTF_8.toString())) {
             scanner.useDelimiter("\\A");
-            result = scanner.hasNext() ? scanner.next() : "";
+            result = scanner.hasNext() ? scanner.next() : "";     
            } 
         /*
          // Trying to solve Question -2 need to crate one extra method to pass the required type as an extra argument
@@ -56,7 +59,8 @@ public class ChargerFinder {
        ChargerLocationWithBestChargerOnly bestLocation =    
                 Arrays.stream(result.split("\n"))
                         .filter(e -> !e.isEmpty())
-                        .map(e -> asChargerLocation(e))
+                        .filter(e->e.contains(type)) // Want to fetch only the values to Match the type of Charger 
+                        .map(e -> asChargerLocation(e,type))
                         .map(e -> withOnlyBestCharger(e))
                         .min(comparingInt(o -> -o.charger.speed)).get();
         
@@ -65,21 +69,25 @@ public class ChargerFinder {
                 .divide(new BigDecimal(bestLocation.charger.speed),
                         MathContext.DECIMAL32);
         
+        // Adding the Charger type in the return String , so that the results can be asserted.
         System.out.println();
         return bestLocation.name + ","
-                + bestLocation.charger.speed + ","
+                + bestLocation.charger.speed + ","+bestLocation.charger.type
                 + chargingTime.setScale(0, RoundingMode.UP).intValue();
         }
         
     
 
-    private static ChargerLocation asChargerLocation(String line) {
+    private static ChargerLocation asChargerLocation(String line,String inputType) {
         String[] parts = line.split(",");
         List<Charger> chargers = new ArrayList<>();
         for (int i = 2; i < parts.length; i += 2) {
             String type = parts[i];
             String speed = parts[i + 1];
-            chargers.add(new Charger(Integer.parseInt(speed), type));
+            if(type.equalsIgnoreCase(inputType))
+			{
+				chargers.add(new Charger(Integer.parseInt(speed), type));
+			}
         }
         return new ChargerLocation(parts[0],
                 Integer.parseInt(parts[1]), chargers);

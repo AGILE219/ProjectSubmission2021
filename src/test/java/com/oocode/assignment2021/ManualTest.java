@@ -9,10 +9,14 @@ import java.io.IOException;
 public class ManualTest {
    
 	// Default test case to check the system is working as expected and showing the expected result
-	 @Test
+	@Test
     public void test() throws IOException {
     	System.out.println(ChargerFinder.findBestCharger("https://tranquil-headland-85251.herokuapp.com", 64, "CCS", "Durham", 23));
-    }
+    	
+    	System.out.println("=======Test case completed============");
+	}
+	
+	
    
     
 	//Question -1 , This test case is to check for the invalid location, which is not supported by the application. 
@@ -22,12 +26,13 @@ public class ManualTest {
     	
     	String mars = ChargerFinder.findBestCharger("https://tranquil-headland-85251.herokuapp.com", 64, "CCS", "Mars", 23);
     	// Asserting for an empty String when the location is Mars
-    	assertTrue(mars.isEmpty());
-    	
+    	assertTrue(mars.isEmpty());    	
     	
     	String Tokiyo = ChargerFinder.findBestCharger("https://tranquil-headland-85251.herokuapp.com", 64, "CCS", "Tokiyo", 23);
     	// Asserting for an empty String when the location is Tokiyo
     	assertTrue(Tokiyo.isEmpty());
+    	
+    	System.out.println("=======Test case completed============");
     	  	
     }
 
@@ -36,16 +41,22 @@ public class ManualTest {
     @Test
     public void testForParticularType() throws IOException {
     	
-    	String chargerDetailsCHAdeMo = ChargerFinder.findBestCharger("https://tranquil-headland-85251.herokuapp.com", 64, "CHAdeMo", "Durham", 23);
-    	assertTrue(chargerDetailsCHAdeMo.contains("CHAdeMo"));
-    	
-    	String chargerDetailsCCS = ChargerFinder.findBestCharger("https://tranquil-headland-85251.herokuapp.com", 64, "CCS", "Durham", 23);
-    	assertTrue(chargerDetailsCCS.contains("CCS"));
-    	
-    	
+    	System.out.println(ChargerFinder.findBestCharger("https://tranquil-headland-85251.herokuapp.com", 64, "CHAdeMo", "Durham", 23));
+    	System.out.println(ChargerFinder.findBestCharger("https://tranquil-headland-85251.herokuapp.com", 64, "CCS", "NewSalisbury", 23));;
+
+    	System.out.println("=======Test case completed============");
     }
     
+    // Question -3 , Considering the time required to reach out to the Nearest charging point
+	// Fetching the minimum of  amount/charingSpeed + distanceToCharger/avgSpeed 
     
+    @Test
+    public void testForTheShortestDistance() throws IOException {
+    	System.out.println(ChargerFinder.findBestCharger("https://tranquil-headland-85251.herokuapp.com", 64, "CCS", "Durham", 23));
+    	
+    	System.out.println("=======Test case completed============");
+    	
+    }
     
     
 }

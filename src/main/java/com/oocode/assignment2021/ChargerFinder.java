@@ -46,7 +46,7 @@ public class ChargerFinder {
             scanner.useDelimiter("\\A");
             result = scanner.hasNext() ? scanner.next() : "";   
             System.out.println("The initial raw out put of the response is ---\n "+result+"\n---------");
-           } 
+           }      
         /*
          // Trying to solve Question -2 need to crate one extra method to pass the required type as an extra argument
          * Question 2
@@ -61,7 +61,7 @@ public class ChargerFinder {
                 Arrays.stream(result.split("\n"))
                         .filter(e -> !e.isEmpty())
                         .filter(e->e.contains(type)) // Want to fetch only the values to Match the type of Charger 
-                        .map(e -> asChargerLocation(e,type,amount,averageDrivingSpeed))
+                        .map(e -> asChargerLocation(e,type))
                         .map(e -> withOnlyBestCharger(e))                        
                         .min(comparingInt(o -> +o.charger.speed)).get();
         
@@ -70,18 +70,32 @@ public class ChargerFinder {
                 .divide(new BigDecimal(bestLocation.charger.speed),
                         MathContext.DECIMAL32);
         
-        // Adding the Charger type in the return String , so that the results can be asserted.
-        // The charegr type can be compared with value passed in the test case...
-        System.out.println();
-        return bestLocation.name + ","
-                + bestLocation.charger.speed + ","+
-                + chargingTime.setScale(0, RoundingMode.UP).intValue();
+        // Adding the below method to calculate time including the driving speed
+        BigDecimal timeTravel= new BigDecimal(bestLocation.distance*60)
+        	    .divide(new BigDecimal(averageDrivingSpeed)
+        	    		,MathContext.DECIMAL32);
+        
+        // Adding the TravelTime to the charging time.
+        chargingTime=chargingTime.add(timeTravel);
+        
+        return bestLocation.name + "," + bestLocation.charger.speed + "," +
+        chargingTime.setScale(0, RoundingMode.UP).intValue();  
+        
+        // Commenting the initial code , as now we need to consider the time required to reach to the charging point
+        // from the location
+        
+        /*         
+           return bestLocation.name + ","
+		   bestLocation.charger.speed + ","
+		   chargingTime.setScale(0, RoundingMode.UP).intValue();         
+         */
+        
         }
         
     
     // Added a new Parameter to accepted the type of the charger as input,
     //so that the charger types which matches to the expected types can only be filtered and added to the list
-    private static ChargerLocation asChargerLocation(String line,String inputType,int amount,int averageDrivingSpeed) {
+    private static ChargerLocation asChargerLocation(String line,String inputType) {
         String[] parts = line.split(",");
         String speed="";
         List<Charger> chargers = new ArrayList<>();
@@ -94,23 +108,17 @@ public class ChargerFinder {
 				chargers.add(new Charger(Integer.parseInt(speed), type));
 			}
         }
-        return new ChargerLocation(parts[0],
-                Integer.parseInt(parts[1]),amount, averageDrivingSpeed,Integer.parseInt(speed),chargers);
+        return new ChargerLocation(parts[0], Integer.parseInt(parts[1]), chargers);
     }
 
     private static ChargerLocationWithBestChargerOnly withOnlyBestCharger(
             ChargerLocation e) {
     
-    	//System.out.println(e.amount);
-    	//System.out.println(e.chargingSpeed);
-    	//System.out.println(e.distance);
-    	//System.out.println(e.avgSpeed);
     	
     	  return new ChargerLocationWithBestChargerOnly(e.name,
                 e.distance,
                 e.chargers.stream()  
-                .min(comparingInt(o -> -(e.amount/e.chargingSpeed+e.distance/e.avgSpeed))).get());
-    	  		// getting the minimum of  amount/charingSpeed + distanceToCharger/avgSpeed	
+                .min(comparingInt(o -> -o.speed)).get());    	  		
     }
     
   

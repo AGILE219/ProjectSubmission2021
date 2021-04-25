@@ -9,7 +9,7 @@ import java.io.IOException;
 public class ManualTest {
    
 	// Default test case to check the system is working as expected and showing the expected result
-	@Test
+	//@Test
     public void test() throws IOException {
     	System.out.println(ChargerFinder.findBestCharger("https://tranquil-headland-85251.herokuapp.com", 64, "CCS", "Durham", 23));
     	
@@ -21,7 +21,7 @@ public class ManualTest {
     
 	//Question -1 , This test case is to check for the invalid location, which is not supported by the application. 
    
-    @Test
+    //@Test
     public void testMarsLocation() throws IOException {
     	
     	String mars = ChargerFinder.findBestCharger("https://tranquil-headland-85251.herokuapp.com", 64, "CCS", "Mars", 23);
@@ -50,7 +50,7 @@ public class ManualTest {
     // Question -3 , Considering the time required to reach out to the Nearest charging point
 	// Fetching the minimum of  amount/charingSpeed + distanceToCharger/avgSpeed 
     
-    @Test
+    //@Test
     public void testForTheShortestDistance() throws IOException {
     	System.out.println(ChargerFinder.findBestCharger("https://tranquil-headland-85251.herokuapp.com", 64, "CCS", "Durham", 23));
     	

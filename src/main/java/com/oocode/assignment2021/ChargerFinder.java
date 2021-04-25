@@ -65,10 +65,16 @@ public class ChargerFinder {
                         .map(e -> withOnlyBestCharger(e))                        
                         .min(comparingInt(o -> +o.charger.speed)).get();
         
+       
         
         BigDecimal chargingTime = new BigDecimal(60 * amount)
                 .divide(new BigDecimal(bestLocation.charger.speed),
                         MathContext.DECIMAL32);
+        
+        /* The below change is for Question 3
+        * Here the time to travel is also considered along the charging time
+        * 
+        */
         
         // Adding the below method to calculate time including the driving speed
         BigDecimal timeTravel= new BigDecimal(bestLocation.distance*60)
@@ -80,15 +86,7 @@ public class ChargerFinder {
         
         return bestLocation.name + "," + bestLocation.charger.speed + "," +
         chargingTime.setScale(0, RoundingMode.UP).intValue();  
-        
-        // Commenting the initial code , as now we need to consider the time required to reach to the charging point
-        // from the location
-        
-        /*         
-           return bestLocation.name + ","
-		   bestLocation.charger.speed + ","
-		   chargingTime.setScale(0, RoundingMode.UP).intValue();         
-         */
+      
         
         }
         
